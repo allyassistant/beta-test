@@ -1077,12 +1077,12 @@
                     </div>
                     <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 10px;">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; padding: 4px 10px; border-radius: 20px; background: rgba(255, 159, 10, 0.2); color: var(--orange);">Activities</span>
-                            <span style="font-size: 18px; font-weight: 700; color: var(--orange);">${model.activities}</span>
+                            <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; padding: 4px 10px; border-radius: 20px; background: rgba(255, 255, 255, 0.1); color: var(--text-secondary);">Activities</span>
+                            <span style="font-size: 18px; font-weight: 700; color: var(--text-primary);">${model.activities}</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; padding: 4px 10px; border-radius: 20px; background: rgba(10, 132, 255, 0.2); color: var(--blue);">Scheduled</span>
-                            <span style="font-size: 16px; font-weight: 600; color: var(--blue);">${model.scheduled}</span>
+                            <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; padding: 4px 10px; border-radius: 20px; background: rgba(255, 255, 255, 0.1); color: var(--text-secondary);">Scheduled</span>
+                            <span style="font-size: 16px; font-weight: 600; color: var(--text-primary);">${model.scheduled}</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; padding: 4px 10px; border-radius: 20px; background: rgba(48, 209, 88, 0.2); color: var(--green);">Completed</span>
@@ -1142,7 +1142,7 @@
                     </div>
                     
                     <!-- Expanded Activity List (Hidden by default) -->
-                    <div id="expanded-activity-list" style="display: none; flex-direction: column;">
+                    <div id="expanded-activity-list" class="activity-list" style="display: none; flex-direction: column; margin-top: 8px;">
                         <div class="activity-item" style="padding: 10px 12px;">
                             <span class="activity-time">23:59</span>
                             <span class="activity-icon">📄</span>
