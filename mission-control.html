@@ -1825,44 +1825,55 @@
         setInterval(savePreferences, 30000);
         
         // ===== 實時系統狀態監控 =====
-        const STATUS_API_URL = 'http://localhost:3456/api/status';
+        // 嘗試多個可能的 API 地址（本地開發 vs 同一 Wi-Fi vs Demo）
+        const STATUS_API_ENDPOINTS = [
+            'http://192.168.0.205:3456/api/status',  // Mac mini 本地 IP（同一 Wi-Fi）
+            'http://localhost:3456/api/status',       // 本地開發
+        ];
         const STATUS_REFRESH_INTERVAL = 30000; // 30秒
         let lastRealStatus = null;
         let usingRealData = false;
         
-        // 獲取真實系統狀態
+        // 獲取真實系統狀態（嘗試多個端點）
         async function fetchRealSystemStatus() {
-            try {
-                const response = await fetch(STATUS_API_URL, {
-                    method: 'GET',
-                    headers: { 'Accept': 'application/json' },
-                    signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
+            for (const endpoint of STATUS_API_ENDPOINTS) {
+                try {
+                    const response = await fetch(endpoint, {
+                        method: 'GET',
+                        headers: { 'Accept': 'application/json' },
+                        signal: AbortSignal.timeout ? AbortSignal.timeout(3000) : undefined
+                    });
+                    
+                    if (!response.ok) {
+                        continue; // 嘗試下一個端點
+                    }
+                    
+                    const data = await response.json();
+                    lastRealStatus = data.services;
+                    usingRealData = true;
+                    
+                    // 更新 healthData
+                    updateHealthDataFromReal(data.services);
+                    updateHeaderStatus();
+                    
+                    // 如果 Modal 打開，更新 Modal
+                    const modal = document.getElementById('health-modal');
+                    if (modal && modal.style.display === 'block') {
+                        openHealthModal();
+                    }
+                    
+                    console.log(`Connected to status server at: ${endpoint}`);
+                    return data;
+                } catch (error) {
+                    console.log(`Failed to connect to ${endpoint}:`, error.message);
+                    continue; // 嘗試下一個端點
                 }
-                
-                const data = await response.json();
-                lastRealStatus = data.services;
-                usingRealData = true;
-                
-                // 更新 healthData
-                updateHealthDataFromReal(data.services);
-                updateHeaderStatus();
-                
-                // 如果 Modal 打開，更新 Modal
-                const modal = document.getElementById('health-modal');
-                if (modal && modal.style.display === 'block') {
-                    openHealthModal();
-                }
-                
-                return data;
-            } catch (error) {
-                console.log('Status API unavailable, using mock data:', error.message);
-                usingRealData = false;
-                return null;
             }
+            
+            // 所有端點都失敗
+            console.log('All status endpoints failed, using mock data');
+            usingRealData = false;
+            return null;
         }
         
         // 將 API 數據轉換為 healthData 格式
