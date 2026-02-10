@@ -588,16 +588,16 @@
             border-radius: 6px;
         }
         
-        .kanban-card-bot.crowley { background: rgba(191, 90, 242, 0.2); color: var(--purple); }
-        .kanban-card-bot.tachikoma { background: rgba(10, 132, 255, 0.2); color: var(--blue); }
+        .kanban-card-bot.crowley { background: rgba(191, 90, 242, 0.35); color: var(--purple); }
+        .kanban-card-bot.tachikoma { background: rgba(10, 132, 255, 0.35); color: var(--blue); }
         
         .kanban-card-bot.kimi {
-            background: rgba(10, 132, 255, 0.2);
+            background: rgba(10, 132, 255, 0.35);
             color: var(--blue);
         }
         
         .kanban-card-bot.qwen3 {
-            background: rgba(48, 209, 88, 0.2);
+            background: rgba(48, 209, 88, 0.35);
             color: var(--green);
         }
         
@@ -950,7 +950,7 @@
                         <div style="font-size: 15px; font-weight: 500; margin-bottom: ${item.desc ? '6px' : '0'}; line-height: 1.4;">${item.title}</div>
                         ${item.desc ? `<div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px; line-height: 1.5;">${item.desc}</div>` : ''}
                         <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <span class="kanban-card-bot ${item.botClass}" style="font-size: 11px; padding: 3px 8px; border-radius: 4px; ${item.botClass === '' ? 'background: rgba(162, 132, 94, 0.15); color: var(--brown);' : ''}">${item.bot}</span>
+                            <span class="kanban-card-bot ${item.botClass}" style="font-size: 11px; padding: 3px 8px; border-radius: 4px; ${item.botClass === '' ? 'background: rgba(162, 132, 94, 0.35); color: var(--brown);' : ''}">${item.bot}</span>
                             <span style="font-size: 12px; color: var(--text-tertiary);">${item.time}</span>
                         </div>
                     </div>
@@ -1129,7 +1129,7 @@
                         <div class="activity-item" style="padding: 10px 12px;">
                             <span class="activity-time">01:44</span>
                             <span class="activity-icon">💬</span>
-                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                             <span class="activity-text">Sent WhatsApp message</span>
                             <span class="activity-status status-success">✓</span>
                         </div>
@@ -1137,7 +1137,7 @@
                         <div class="activity-item" style="padding: 10px 12px;">
                             <span class="activity-time">01:30</span>
                             <span class="activity-icon">📝</span>
-                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                             <span class="activity-text">Updated Mission Control HTML</span>
                             <span class="activity-status status-success">✓</span>
                         </div>
@@ -1164,7 +1164,7 @@
                         <div class="activity-item" style="padding: 10px 12px;">
                             <span class="activity-time">23:59</span>
                             <span class="activity-icon">📄</span>
-                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                             <span class="activity-text">Generated daily summary</span>
                             <span class="activity-status status-success">✓</span>
                         </div>
@@ -1172,7 +1172,7 @@
                         <div class="activity-item" style="padding: 10px 12px; border-bottom: none;">
                             <span class="activity-time">23:00</span>
                             <span class="activity-icon">📝</span>
-                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                             <span class="activity-text">Archived memory files</span>
                             <span class="activity-status status-success">✓</span>
                         </div>
@@ -1249,7 +1249,7 @@
                                 <div class="kanban-card-title">Apple Notes 備份驗證機制</div>
                                 <div class="kanban-card-desc">創建腳本驗證 Apple Notes 備份完整性</div>
                                 <div class="kanban-card-footer">
-                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                                     <span class="kanban-card-time">高優先級</span>
                                 </div>
                             </div>
@@ -1273,7 +1273,7 @@
                                 <div class="kanban-card-title">MEMORY.md 關鍵記憶標記</div>
                                 <div class="kanban-card-desc">建立機制防止重要資訊被誤刪</div>
                                 <div class="kanban-card-footer">
-                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                                     <span class="kanban-card-time">進行中</span>
                                 </div>
                             </div>
@@ -1281,7 +1281,7 @@
                                 <div class="kanban-card-title">Dashboard UI 優化</div>
                                 <div class="kanban-card-desc">改善用戶體驗同交互</div>
                                 <div class="kanban-card-footer">
-                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                                     <span class="kanban-card-time">進行中</span>
                                 </div>
                             </div>
@@ -1299,7 +1299,7 @@
                                 <div class="kanban-card-title">Stock List 整合腳本</div>
                                 <div class="kanban-card-desc">測試 Excel 自動合併功能</div>
                                 <div class="kanban-card-footer">
-                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                                     <span class="kanban-card-time">待審核</span>
                                 </div>
                             </div>
@@ -1308,7 +1308,7 @@
                                 <div class="kanban-card-title">Token 監控警報</div>
                                 <div class="kanban-card-desc">優化三層警告系統</div>
                                 <div class="kanban-card-footer">
-                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.15); color: var(--brown);">System</span>
+                                    <span class="kanban-card-bot" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
                                     <span class="kanban-card-time">待審核</span>
                                 </div>
                             </div>
