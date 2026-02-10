@@ -822,10 +822,15 @@
                     <h1 class="header-title">Mission Control</h1>
                     <span class="header-subtitle">AI Assistant Dashboard</span>
                 </div>
-                <button class="status-badge" id="system-status-badge" onclick="openHealthModal()" style="cursor: pointer; border: none; background: rgba(48, 209, 88, 0.15);">
-                    <span class="status-dot"></span>
-                    <span id="system-status-text">System Online</span>
-                </button>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button id="refresh-btn" onclick="refreshData()" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 8px 16px; color: var(--text-secondary); font-size: 12px; font-weight: 500; cursor: pointer; backdrop-filter: blur(10px); transition: all 0.2s;">
+                        🔄 Refresh
+                    </button>
+                    <button class="status-badge" id="system-status-badge" onclick="openHealthModal()" style="cursor: pointer; border: none; background: rgba(48, 209, 88, 0.15);">
+                        <span class="status-dot"></span>
+                        <span id="system-status-text">System Online</span>
+                    </button>
+                </div>
             </div>
         </header>
         
@@ -1061,6 +1066,7 @@
                     navItems[tabIndex].classList.add('active');
                 }
             }
+            savePreferences(); // 儲存當前 tab
             render();
         }
         
@@ -1706,6 +1712,104 @@
         
         // 每 5 分鐘更新一次狀態
         setInterval(updateHeaderStatus, 5 * 60 * 1000);
+        
+        // ===== Phase 1: LocalStorage & Data Management =====
+        
+        // 儲存用戶偏好
+        function savePreferences() {
+            const prefs = {
+                activeTab: currentTab,
+                activityExpanded: document.getElementById('expanded-activity-list')?.style.display === 'flex',
+                lastVisit: new Date().toISOString()
+            };
+            localStorage.setItem('missionControlPrefs', JSON.stringify(prefs));
+        }
+        
+        // 讀取用戶偏好
+        function loadPreferences() {
+            try {
+                const prefs = JSON.parse(localStorage.getItem('missionControlPrefs'));
+                if (prefs) {
+                    // 還原 tab
+                    if (prefs.activeTab && ['dashboard', 'tasks', 'activity', 'calendar', 'search'].includes(prefs.activeTab)) {
+                        currentTab = prefs.activeTab;
+                    }
+                    // 還原展開狀態
+                    if (prefs.activityExpanded) {
+                        const expandedList = document.getElementById('expanded-activity-list');
+                        const btn = document.getElementById('activity-expand-btn');
+                        if (expandedList && btn) {
+                            expandedList.style.display = 'flex';
+                            btn.textContent = '← Show Less';
+                        }
+                    }
+                }
+            } catch (e) {
+                console.log('No preferences found');
+            }
+        }
+        
+        // Refresh 數據功能
+        function refreshData() {
+            const btn = document.querySelector('[onclick="refreshData()"]') || document.getElementById('refresh-btn');
+            if (btn) {
+                btn.style.opacity = '0.5';
+                btn.textContent = '🔄 更新中...';
+            }
+            
+            // 模擬更新（實際應用中呢度會 call API）
+            setTimeout(() => {
+                updateHeaderStatus();
+                render();
+                savePreferences();
+                
+                if (btn) {
+                    btn.style.opacity = '1';
+                    btn.textContent = '🔄 Refresh';
+                }
+                
+                // 顯示更新成功提示
+                showToast('✓ 數據已更新');
+            }, 800);
+        }
+        
+        // Toast 提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(48, 209, 88, 0.9);
+                backdrop-filter: blur(10px);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                font-weight: 500;
+                z-index: 9999;
+                animation: fadeIn 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+        
+        // 頁面關閉前儲存偏好
+        window.addEventListener('beforeunload', savePreferences);
+        
+        // 載入時還原偏好
+        loadPreferences();
+        
+        // 定期自動儲存（每 30 秒）
+        setInterval(savePreferences, 30000);
     </script>
 </body>
 </html>
