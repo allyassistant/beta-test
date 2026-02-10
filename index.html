@@ -9,22 +9,32 @@
     <title>Mission Control</title>
     <style>
         :root {
-            /* Dark Theme */
+            /* Liquid Glass Theme - iOS Style */
             --bg-primary: #000000;
-            --bg-secondary: #1C1C1E;
-            --bg-card: rgba(28, 28, 30, 0.8);
+            --bg-secondary: rgba(28, 28, 30, 0.6);
+            --bg-card: rgba(255, 255, 255, 0.08);
+            --bg-card-hover: rgba(255, 255, 255, 0.12);
             --bg-hover: rgba(255, 255, 255, 0.05);
             --text-primary: #FFFFFF;
-            --text-secondary: rgba(255, 255, 255, 0.6);
-            --text-tertiary: rgba(255, 255, 255, 0.4);
-            --border: rgba(255, 255, 255, 0.1);
-            --separator: rgba(255, 255, 255, 0.15);
-            /* Keep current accent colors */
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --border: rgba(255, 255, 255, 0.15);
+            --separator: rgba(255, 255, 255, 0.1);
+            /* Glass effects */
+            --glass-blur: blur(40px) saturate(180%);
+            --glass-blur-heavy: blur(60px) saturate(200%);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shine: rgba(255, 255, 255, 0.3);
+            /* Accent colors - vibrant for glass */
             --blue: #0A84FF;
+            --blue-glow: rgba(10, 132, 255, 0.4);
             --green: #30D158;
+            --green-glow: rgba(48, 209, 88, 0.4);
             --brown: #A2845E;
             --purple: #BF5AF2;
+            --purple-glow: rgba(191, 90, 242, 0.4);
             --orange: #FF9F0A;
+            --orange-glow: rgba(255, 159, 10, 0.4);
             --red: #FF453A;
             --yellow: #FFD60A;
             --safe-top: env(safe-area-inset-top);
@@ -40,7 +50,12 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
-            background: var(--bg-primary);
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(10, 132, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(191, 90, 242, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(48, 209, 88, 0.08) 0%, transparent 60%),
+                #000000;
+            background-attachment: fixed;
             color: var(--text-primary);
             min-height: 100vh;
             overflow: hidden;
@@ -52,13 +67,24 @@
             flex-direction: column;
         }
         
-        /* Header */
+        /* Header - Liquid Glass */
         .header {
             padding: 12px 16px;
             padding-top: calc(12px + var(--safe-top));
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--glass-shine), transparent);
         }
         
         .header-content {
@@ -163,10 +189,16 @@
         
         .bot-card {
             background: var(--bg-card);
-            border-radius: 16px;
+            backdrop-filter: var(--glass-blur);
+            border-radius: 20px;
             padding: 16px;
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 var(--glass-shine);
+            transition: all 0.3s ease;
         }
         
         .bot-card::before {
@@ -175,15 +207,26 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            border-radius: 20px 20px 0 0;
+            pointer-events: none;
         }
         
         .bot-card.blue {
-            background: rgba(10, 132, 255, 0.2);
+            background: rgba(10, 132, 255, 0.15);
+            border-color: rgba(10, 132, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(10, 132, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
         
         .bot-card.green {
-            background: rgba(48, 209, 88, 0.2);
+            background: rgba(48, 209, 88, 0.15);
+            border-color: rgba(48, 209, 88, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(48, 209, 88, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
         
         .bot-card-header {
@@ -203,15 +246,25 @@
             color: var(--text-secondary);
         }
         
-        /* Stat Cards */
+        /* Stat Cards - Liquid Glass */
         .stat-card {
             background: var(--bg-card);
-            border-radius: 16px;
+            backdrop-filter: var(--glass-blur);
+            border-radius: 20px;
             padding: 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 12px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 var(--glass-shine);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:active {
+            transform: scale(0.98);
         }
         
         .stat-info {
@@ -233,26 +286,44 @@
         .stat-icon {
             width: 48px;
             height: 48px;
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .stat-icon.blue { background: rgba(10, 132, 255, 0.2); }
-        .stat-icon.purple { background: rgba(191, 90, 242, 0.2); }
-        .stat-icon.green { background: rgba(48, 209, 88, 0.2); }
-        .stat-icon.orange { background: rgba(255, 159, 10, 0.2); }
+        .stat-icon.blue { 
+            background: rgba(10, 132, 255, 0.2); 
+            box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);
+        }
+        .stat-icon.purple { 
+            background: rgba(191, 90, 242, 0.2); 
+            box-shadow: 0 4px 15px rgba(191, 90, 242, 0.3);
+        }
+        .stat-icon.green { 
+            background: rgba(48, 209, 88, 0.2); 
+            box-shadow: 0 4px 15px rgba(48, 209, 88, 0.3);
+        }
+        .stat-icon.orange { 
+            background: rgba(255, 159, 10, 0.2); 
+            box-shadow: 0 4px 15px rgba(255, 159, 10, 0.3);
+        }
         
-        /* Activity Feed */
+        /* Activity Feed - Liquid Glass */
         .activity-list {
             display: flex;
             flex-direction: column;
             background: var(--bg-card);
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-            border: 0.5px solid var(--separator);
+            backdrop-filter: var(--glass-blur);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 var(--glass-shine);
+            overflow: hidden;
         }
         
         .activity-item {
@@ -466,9 +537,18 @@
         
         .kanban-card {
             background: var(--bg-card);
-            border-radius: 12px;
+            backdrop-filter: var(--glass-blur);
+            border-radius: 16px;
             padding: 14px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 var(--glass-shine);
+            transition: all 0.3s ease;
+        }
+        
+        .kanban-card:active {
+            transform: scale(0.98);
         }
         
         .kanban-card-title {
@@ -533,13 +613,15 @@
         
         .calendar-event-card {
             background: var(--bg-card);
-            border-radius: 12px;
+            backdrop-filter: var(--glass-blur);
+            border-radius: 16px;
             padding: 14px;
+            border: 1px solid var(--glass-border);
             border-left: 3px solid var(--purple);
-        }
-            border-radius: 12px;
-            padding: 14px;
-            border-left: 3px solid var(--purple);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 var(--glass-shine);
+            transition: all 0.3s ease;
         }
         
         .calendar-event-card.cron {
@@ -626,7 +708,7 @@
             color: var(--green);
         }
         
-        /* Bottom Nav - iOS Style */
+        /* Bottom Nav - Liquid Glass iOS Style */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -636,9 +718,12 @@
             justify-content: space-around;
             align-items: center;
             padding: 12px 8px calc(20px + var(--safe-bottom));
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(25px) saturate(180%);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: var(--glass-blur-heavy);
+            border-top: 1px solid var(--glass-border);
+            box-shadow: 
+                0 -8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 var(--glass-shine);
             z-index: 1000;
         }
         
@@ -649,16 +734,17 @@
             justify-content: center;
             gap: 6px;
             padding: 10px 20px;
-            background: none;
-            border: none;
-            border-radius: 14px;
-            color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: rgba(255, 255, 255, 0.6);
             font-size: 10px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             min-width: 64px;
             min-height: 50px;
+            backdrop-filter: blur(10px);
         }
         
         .nav-item:active {
@@ -667,13 +753,17 @@
         
         .nav-item.active {
             color: #0A84FF;
-            background: rgba(10, 132, 255, 0.15);
+            background: rgba(10, 132, 255, 0.2);
+            border-color: rgba(10, 132, 255, 0.4);
+            box-shadow: 
+                0 4px 15px rgba(10, 132, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
         
         .nav-icon {
             font-size: 24px;
             line-height: 1;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
         }
         
         /* Empty State */
