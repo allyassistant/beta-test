@@ -895,6 +895,7 @@
         const kanbanColumnData = {
             'todo': {
                 title: 'Todo',
+                color: 'var(--yellow)',
                 items: [
                     { title: 'Apple Notes 備份驗證機制', desc: '創建腳本驗證 Apple Notes 備份完整性', bot: 'System', time: '高優先級', botClass: '' },
                     { title: 'Qwen3 Excel Dynamic Arrays 訓練', desc: '', bot: 'Qwen3', time: '今晚 03:00', botClass: 'qwen3' }
@@ -902,16 +903,19 @@
             },
             'progress': {
                 title: 'In Progress',
+                color: 'var(--blue)',
                 items: [
                     { title: 'MEMORY.md 關鍵記憶標記', desc: '建立機制防止重要資訊被誤刪', bot: 'System', time: '進行中', botClass: '' }
                 ]
             },
             'review': {
                 title: 'Review',
+                color: 'var(--purple)',
                 items: []
             },
             'done': {
                 title: 'Done',
+                color: 'var(--green)',
                 items: [
                     { title: 'Excel XLOOKUP 訓練完成', desc: '', bot: 'Qwen3', time: 'Feb 6', botClass: 'qwen3' },
                     { title: 'Excel INDEX+MATCH 訓練完成', desc: '', bot: 'Qwen3', time: 'Feb 7', botClass: 'qwen3' }
@@ -921,11 +925,17 @@
         
         function openKanbanColumnModal(columnId) {
             const modal = document.getElementById('kanban-column-modal');
+            const modalContent = modal.querySelector('div');
             const title = document.getElementById('kanban-column-title');
             const list = document.getElementById('kanban-column-list');
             
             const column = kanbanColumnData[columnId];
+            const color = column.color;
+            
             title.textContent = column.title + ' (' + column.items.length + ')';
+            title.style.color = color;
+            
+            modalContent.style.borderTop = '4px solid ' + color;
             
             if (column.items.length === 0) {
                 list.innerHTML = '<div style="text-align: center; padding: 60px 20px; color: var(--text-tertiary);">No items</div>';
