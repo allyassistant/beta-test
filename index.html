@@ -1374,13 +1374,13 @@
             // Build tabs and content
             list.innerHTML = `
                 <div style="display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
-                    <button onclick="switchModelTab('${modelId}', 'activities')" id="tab-activities-${modelId}" class="model-tab active" style="flex: 1; background: rgba(255,255,255,0.1); border: none; color: var(--text-primary); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer;">
+                    <button onclick="switchModelTab('${modelId}', 'activities')" id="tab-activities-${modelId}" class="model-tab active" style="flex: 1; background: rgba(255, 159, 10, 0.2); border: 1px solid rgba(255, 159, 10, 0.4); color: var(--orange); padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 0.3px;">
                         Activities (${data.activities.length})
                     </button>
-                    <button onclick="switchModelTab('${modelId}', 'scheduled')" id="tab-scheduled-${modelId}" class="model-tab" style="flex: 1; background: transparent; border: none; color: var(--text-secondary); padding: 8px 12px; border-radius: 8px; font-size: 13px; cursor: pointer;">
+                    <button onclick="switchModelTab('${modelId}', 'scheduled')" id="tab-scheduled-${modelId}" class="model-tab" style="flex: 1; background: rgba(10, 132, 255, 0.15); border: 1px solid rgba(10, 132, 255, 0.3); color: var(--blue); padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 0.3px;">
                         Scheduled (${data.scheduled.length})
                     </button>
-                    <button onclick="switchModelTab('${modelId}', 'completed')" id="tab-completed-${modelId}" class="model-tab" style="flex: 1; background: transparent; border: none; color: var(--text-secondary); padding: 8px 12px; border-radius: 8px; font-size: 13px; cursor: pointer;">
+                    <button onclick="switchModelTab('${modelId}', 'completed')" id="tab-completed-${modelId}" class="model-tab" style="flex: 1; background: rgba(48, 209, 88, 0.15); border: 1px solid rgba(48, 209, 88, 0.3); color: var(--green); padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 0.3px;">
                         Completed (${data.completed.length})
                     </button>
                 </div>
@@ -1416,21 +1416,33 @@
         }
         
         function switchModelTab(modelId, tab) {
-            // Update button styles
+            const colors = {
+                activities: { bg: 'rgba(255, 159, 10, 0.2)', border: 'rgba(255, 159, 10, 0.4)', color: 'var(--orange)' },
+                scheduled: { bg: 'rgba(10, 132, 255, 0.2)', border: 'rgba(10, 132, 255, 0.4)', color: 'var(--blue)' },
+                completed: { bg: 'rgba(48, 209, 88, 0.2)', border: 'rgba(48, 209, 88, 0.4)', color: 'var(--green)' }
+            };
+            const inactiveColors = {
+                activities: { bg: 'rgba(255, 159, 10, 0.1)', border: 'rgba(255, 159, 10, 0.2)', color: 'rgba(255, 159, 10, 0.6)' },
+                scheduled: { bg: 'rgba(10, 132, 255, 0.1)', border: 'rgba(10, 132, 255, 0.2)', color: 'rgba(10, 132, 255, 0.6)' },
+                completed: { bg: 'rgba(48, 209, 88, 0.1)', border: 'rgba(48, 209, 88, 0.2)', color: 'rgba(48, 209, 88, 0.6)' }
+            };
+            
             ['activities', 'scheduled', 'completed'].forEach(t => {
                 const btn = document.getElementById(`tab-${t}-${modelId}`);
                 const content = document.getElementById(`content-${t}-${modelId}`);
                 if (t === tab) {
-                    btn.style.background = 'rgba(255,255,255,0.1)';
-                    btn.style.color = 'var(--text-primary)';
-                    btn.style.fontWeight = '500';
+                    btn.style.background = colors[t].bg;
+                    btn.style.borderColor = colors[t].border;
+                    btn.style.color = colors[t].color;
+                    btn.style.border = `1px solid ${colors[t].border}`;
                     content.style.display = 'block';
                     content.style.height = '320px';
                     content.style.overflowY = 'auto';
                 } else {
-                    btn.style.background = 'transparent';
-                    btn.style.color = 'var(--text-secondary)';
-                    btn.style.fontWeight = '400';
+                    btn.style.background = inactiveColors[t].bg;
+                    btn.style.borderColor = inactiveColors[t].border;
+                    btn.style.color = inactiveColors[t].color;
+                    btn.style.border = `1px solid ${inactiveColors[t].border}`;
                     content.style.display = 'none';
                 }
             });
