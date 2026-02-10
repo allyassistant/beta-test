@@ -134,6 +134,11 @@
             50% { opacity: 0.5; }
         }
         
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         /* Content */
         .content {
             flex: 1;
@@ -1342,23 +1347,136 @@
                     <span class="section-title">Search</span>
                 </div>
                 
-                <div style="background: var(--bg-card); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                <div style="background: var(--bg-card); backdrop-filter: var(--glass-blur); border-radius: 16px; padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--glass-border); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 var(--glass-shine);">
                     <span style="font-size: 18px; color: var(--text-tertiary);">🔍</span>
-                    <input type="text" placeholder="Search activities, tasks, memory..." style="background: transparent; border: none; color: var(--text-primary); font-size: 16px; flex: 1; outline: none;" id="search-input">
+                    <input type="text" placeholder="Search activities, tasks, memory..." style="background: transparent; border: none; color: var(--text-primary); font-size: 16px; flex: 1; outline: none;" id="search-input" oninput="handleSearch(this.value)">
                 </div>
                 
-                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                    <span style="font-size: 12px; color: var(--text-tertiary); padding: 6px 12px; background: var(--bg-card); border-radius: 16px;">Recent: Apple Notes</span>
-                    <span style="font-size: 12px; color: var(--text-tertiary); padding: 6px 12px; background: var(--bg-card); border-radius: 16px;">Recent: Qwen3</span>
-                    <span style="font-size: 12px; color: var(--text-tertiary); padding: 6px 12px; background: var(--bg-card); border-radius: 16px;">Recent: Excel</span>
-                </div>
-                
-                <div style="color: var(--text-tertiary); text-align: center; padding: 60px 20px;">
-                    <div style="font-size: 48px; margin-bottom: 12px;">🔍</div>
-                    <div style="font-size: 16px; margin-bottom: 4px;">Search across everything</div>
-                    <div style="font-size: 13px;">Activities, tasks, memory files...</div>
+                <div id="search-results" style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="color: var(--text-tertiary); text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 48px; margin-bottom: 12px;">🔍</div>
+                        <div style="font-size: 16px; margin-bottom: 4px;">Search across everything</div>
+                        <div style="font-size: 13px;">Activities, tasks, memory files...</div>
+                    </div>
                 </div>
             `;
+        }
+        
+        function handleSearch(query) {
+            const resultsContainer = document.getElementById('search-results');
+            if (!query.trim()) {
+                resultsContainer.innerHTML = `
+                    <div style="color: var(--text-tertiary); text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 48px; margin-bottom: 12px;">🔍</div>
+                        <div style="font-size: 16px; margin-bottom: 4px;">Search across everything</div>
+                        <div style="font-size: 13px;">Activities, tasks, memory files...</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            const q = query.toLowerCase();
+            let results = [];
+            
+            // Search model activities
+            Object.entries(modelActivitiesData).forEach(([modelId, data]) => {
+                const modelName = modelId === 'kimi' ? 'Kimi' : 'Qwen3';
+                data.activities.forEach(item => {
+                    if (item.text.toLowerCase().includes(q) || item.time.toLowerCase().includes(q)) {
+                        results.push({
+                            type: 'Activity',
+                            source: modelName,
+                            title: item.text,
+                            time: item.time,
+                            icon: item.icon,
+                            color: 'var(--orange)'
+                        });
+                    }
+                });
+                data.scheduled.forEach(item => {
+                    if (item.text.toLowerCase().includes(q) || item.time.toLowerCase().includes(q)) {
+                        results.push({
+                            type: 'Scheduled',
+                            source: modelName,
+                            title: item.text,
+                            time: item.time,
+                            icon: item.icon,
+                            color: 'var(--blue)'
+                        });
+                    }
+                });
+                data.completed.forEach(item => {
+                    if (item.text.toLowerCase().includes(q) || item.time.toLowerCase().includes(q)) {
+                        results.push({
+                            type: 'Completed',
+                            source: modelName,
+                            title: item.text,
+                            time: item.time,
+                            icon: item.icon,
+                            color: 'var(--green)'
+                        });
+                    }
+                });
+            });
+            
+            // Search kanban tasks
+            Object.entries(kanbanColumnData).forEach(([colId, col]) => {
+                col.items.forEach(item => {
+                    if (item.title.toLowerCase().includes(q) || 
+                        (item.desc && item.desc.toLowerCase().includes(q)) ||
+                        item.bot.toLowerCase().includes(q)) {
+                        results.push({
+                            type: col.title,
+                            source: item.bot,
+                            title: item.title,
+                            desc: item.desc,
+                            time: item.time,
+                            icon: '📝',
+                            color: col.color
+                        });
+                    }
+                });
+            });
+            
+            // Search health data
+            Object.values(healthData).forEach(service => {
+                if (service.name && service.name.toLowerCase().includes(q)) {
+                    results.push({
+                        type: 'Service',
+                        source: 'System',
+                        title: service.name + ' - ' + (service.status === 'up' ? 'Operational' : 'Issue'),
+                        time: service.responseTime + 'ms',
+                        icon: service.icon || '⚙️',
+                        color: service.status === 'up' ? 'var(--green)' : 'var(--red)'
+                    });
+                }
+            });
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div style="color: var(--text-tertiary); text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">😕</div>
+                        <div style="font-size: 16px;">No results found</div>
+                    </div>
+                `;
+            } else {
+                resultsContainer.innerHTML = results.map((r, i) => `
+                    <div class="activity-item" style="background: var(--bg-card); backdrop-filter: var(--glass-blur); border-radius: 16px; padding: 14px; border: 1px solid var(--glass-border); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 var(--glass-shine); animation: fadeIn 0.3s ease ${i * 0.05}s both;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 20px;">${r.icon}</span>
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span style="font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; padding: 2px 8px; border-radius: 10px; background: ${r.color}; color: #000;">${r.type}</span>
+                                    <span style="font-size: 11px; color: var(--text-tertiary);">${r.source}</span>
+                                </div>
+                                <div style="font-size: 14px; font-weight: 500; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${r.title}</div>
+                                ${r.desc ? `<div style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${r.desc}</div>` : ''}
+                            </div>
+                            <span style="font-size: 11px; color: var(--text-tertiary); flex-shrink: 0;">${r.time}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
         }
         
         function toggleActivityExpand() {
