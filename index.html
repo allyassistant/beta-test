@@ -729,12 +729,12 @@
             justify-content: space-around;
             align-items: center;
             padding: 12px 8px calc(20px + var(--safe-bottom));
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: var(--glass-blur-heavy);
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 
-                0 -8px 32px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 var(--glass-shine);
+                0 -8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
             z-index: 1000;
         }
         
@@ -743,20 +743,20 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+            gap: 4px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
             color: rgba(255, 255, 255, 0.6);
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            min-width: 64px;
-            min-height: 50px;
+            min-width: 70px;
+            min-height: 44px;
             backdrop-filter: blur(10px);
         }
         
@@ -765,11 +765,11 @@
         }
         
         .nav-item.active {
-            color: #0A84FF;
-            background: rgba(10, 132, 255, 0.2);
-            border-color: rgba(10, 132, 255, 0.4);
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 
-                0 4px 15px rgba(10, 132, 255, 0.3),
+                0 4px 15px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
         
