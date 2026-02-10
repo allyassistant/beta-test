@@ -1538,14 +1538,14 @@
             }
             return activities.map((activity, i) => `
                 <div style="background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(10px); border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: flex-start; gap: 12px; animation: fadeIn 0.3s ease ${i * 0.05}s both;">
-                    <div style="width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; background: ${type === 'scheduled' ? 'rgba(255, 214, 10, 0.15)' : type === 'completed' ? 'rgba(48, 209, 88, 0.15)' : 'rgba(255, 255, 255, 0.08)'}; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div style="width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15);">
                         ${activity.icon}
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <div style="font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 6px;">${activity.text}</div>
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <span style="font-size: 11px; color: var(--text-tertiary); padding: 3px 8px; background: rgba(255, 255, 255, 0.06); border-radius: 6px;">${activity.time}</span>
-                            ${type === 'completed' ? '<span style="font-size: 11px; color: var(--green);">✓ Done</span>' : type === 'scheduled' ? '<span style="font-size: 11px; color: var(--yellow);">⏱ Scheduled</span>' : '<span style="font-size: 11px; color: var(--blue);">Active</span>'}
+                            ${type === 'completed' ? '<span style="font-size: 11px; color: var(--text-secondary);">✓ Done</span>' : type === 'scheduled' ? '<span style="font-size: 11px; color: var(--text-secondary);">⏱ Scheduled</span>' : '<span style="font-size: 11px; color: var(--text-secondary);">Active</span>'}
                         </div>
                     </div>
                 </div>
