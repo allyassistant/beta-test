@@ -1128,80 +1128,56 @@
                         <button onclick="toggleActivityExpand()" id="activity-expand-btn" style="background: none; border: none; color: var(--blue); font-size: 13px; cursor: pointer;">Show More →</button>
                     </div>
                     
-                    <div class="activity-list" id="recent-activity-list" style="display: flex; flex-direction: column; gap: 10px;">
-                        <div class="calendar-event-card" style="border-left-color: var(--brown);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div style="flex: 1; min-width: 0;">
-                                    <div style="font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 4px;">Sent WhatsApp message</div>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <span class="calendar-event-time" style="margin-bottom: 0; color: var(--brown);">💬 01:44</span>
-                                        <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="activity-list legacy" id="recent-activity-list" style="display: flex; flex-direction: column;">
+                        <div class="activity-item" style="padding: 12px 16px;">
+                            <span class="activity-time">01:44</span>
+                            <span class="activity-icon">💬</span>
+                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
+                            <span class="activity-text">Sent WhatsApp message</span>
+                            <span class="activity-status status-success">✓</span>
                         </div>
                         
-                        <div class="calendar-event-card" style="border-left-color: var(--brown);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div style="flex: 1; min-width: 0;">
-                                    <div style="font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 4px;">Updated Mission Control HTML</div>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <span class="calendar-event-time" style="margin-bottom: 0; color: var(--brown);">📝 01:30</span>
-                                        <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="activity-item" style="padding: 12px 16px;">
+                            <span class="activity-time">01:30</span>
+                            <span class="activity-icon">📝</span>
+                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
+                            <span class="activity-text">Updated Mission Control HTML</span>
+                            <span class="activity-status status-success">✓</span>
                         </div>
                         
-                        <div class="calendar-event-card cron" style="border-left-color: var(--blue);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div style="flex: 1; min-width: 0;">
-                                    <div style="font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 4px;">Web search: Mission Control best practices</div>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <span class="calendar-event-time" style="margin-bottom: 0; color: var(--blue);">🔍 01:15</span>
-                                        <span class="activity-badge" style="background: rgba(10, 132, 255, 0.35); color: var(--blue);">Kimi</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="activity-item" style="padding: 12px 16px;">
+                            <span class="activity-time">01:15</span>
+                            <span class="activity-icon">🔍</span>
+                            <span class="activity-badge" style="background: rgba(10, 132, 255, 0.35); color: var(--blue);">Kimi</span>
+                            <span class="activity-text">Web search: Mission Control best practices</span>
+                            <span class="activity-status status-success">✓</span>
                         </div>
                         
-                        <div class="calendar-event-card task" style="border-left-color: var(--green);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div style="flex: 1; min-width: 0;">
-                                    <div style="font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 4px;">Completed INDEX+MATCH training module</div>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <span class="calendar-event-time" style="margin-bottom: 0; color: var(--green);">⚡ 00:50</span>
-                                        <span class="activity-badge" style="background: rgba(48, 209, 88, 0.35); color: var(--green);">Qwen3</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="activity-item" style="padding: 12px 16px; border-bottom: none;">
+                            <span class="activity-time">00:50</span>
+                            <span class="activity-icon">⚡</span>
+                            <span class="activity-badge" style="background: rgba(48, 209, 88, 0.35); color: var(--green);">Qwen3</span>
+                            <span class="activity-text">Completed INDEX+MATCH training module</span>
+                            <span class="activity-status status-success">✓</span>
                         </div>
                     </div>
                     
                     <!-- Expanded Activity List (Hidden by default) -->
-                    <div id="expanded-activity-list" class="activity-list" style="display: none; flex-direction: column; gap: 10px; margin-top: 10px;">
-                        <div class="calendar-event-card" style="border-left-color: var(--brown);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div style="flex: 1; min-width: 0;">
-                                    <div style="font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 4px;">Generated daily summary</div>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <span class="calendar-event-time" style="margin-bottom: 0; color: var(--brown);">📄 23:59</span>
-                                        <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div id="expanded-activity-list" class="activity-list legacy" style="display: none; flex-direction: column; margin-top: 8px;">
+                        <div class="activity-item" style="padding: 12px 16px;">
+                            <span class="activity-time">23:59</span>
+                            <span class="activity-icon">📄</span>
+                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
+                            <span class="activity-text">Generated daily summary</span>
+                            <span class="activity-status status-success">✓</span>
                         </div>
                         
-                        <div class="calendar-event-card" style="border-left-color: var(--brown);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div style="flex: 1; min-width: 0;">
-                                    <div style="font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 4px;">Archived memory files</div>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <span class="calendar-event-time" style="margin-bottom: 0; color: var(--brown);">📝 23:00</span>
-                                        <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="activity-item" style="padding: 12px 16px; border-bottom: none;">
+                            <span class="activity-time">23:00</span>
+                            <span class="activity-icon">📝</span>
+                            <span class="activity-badge" style="background: rgba(162, 132, 94, 0.35); color: var(--brown);">System</span>
+                            <span class="activity-text">Archived memory files</span>
+                            <span class="activity-status status-success">✓</span>
                         </div>
                     </div>
                 </div>
